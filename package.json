@@ -1,0 +1,11 @@
+{
+  "name": "persons",
+  "version": "1.0.0",
+  "description": "Persons-backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "No test specified"
+  },
+  "author": "devgranlund",
+  "license": "MIT"
+}
