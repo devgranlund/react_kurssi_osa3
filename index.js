@@ -37,6 +37,17 @@ app.get('/info', (req, res) => {
                 ${new Date()}`)
 })
 
+app.get('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    const person = persons.find(perz => perz.id === id)
+    if (typeof person === "undefined") {
+        response.send('<h1>Ei henkilöitä annetulla id:llä</h1>')
+    } else {
+        response.json(person)
+    }
+    
+})
+
 const PORT = 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
