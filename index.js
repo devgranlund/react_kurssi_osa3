@@ -40,12 +40,18 @@ app.get('/info', (req, res) => {
 app.get('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
     const person = persons.find(perz => perz.id === id)
-    if (typeof person === "undefined") {
-        response.send('<h1>Ei henkilöitä annetulla id:llä</h1>')
-    } else {
+    if ( person ) {
         response.json(person)
+    } else {
+        response.status(404).end()
     }
+})
+
+app.delete('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    persons = persons.filter(person => person.id !== id)
     
+    response.status(204).end()
 })
 
 const PORT = 3001
