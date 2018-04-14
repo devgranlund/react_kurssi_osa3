@@ -2,11 +2,13 @@ const express = require('express')
 const app = express()
 const bodyPareser = require('body-parser')
 const morgan = require('morgan')
+const cors = require('cors')
 
 morgan.token('request-data', function getRequestData (req, res) {
     return JSON.stringify(req.body)
 })
 
+app.use(cors())
 app.use(bodyPareser.json())
 app.use(morgan(':method :url :request-data :status :res[content-length] - :response-time ms'))
 
