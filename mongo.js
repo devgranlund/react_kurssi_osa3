@@ -1,11 +1,12 @@
 const mongoose = require('mongoose')
 const args = process.argv.slice(2);
-const url = 'mongodb://?:?@ds121575.mlab.com:21575/persons'
+const url = process.env.MONGODB_URI
 mongoose.connect(url)
 
 const Person = mongoose.model('Person', {
     name: String,
-    number: String
+    number: String,
+    id: Number
 })
 console.log('4')
 

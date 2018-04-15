@@ -3,6 +3,7 @@ const app = express()
 const bodyPareser = require('body-parser')
 const morgan = require('morgan')
 const cors = require('cors')
+const Person = require('./models/person')
 
 morgan.token('request-data', function getRequestData (req, res) {
     return JSON.stringify(req.body)
@@ -41,8 +42,20 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/persons', (req, res) => {
-    res.json(persons)
+    Person
+        .find({})
+        .then(persons => {
+            res.json(persons.map(formatPerson))
+        })
 })
+
+const formatPerson = (person) => {
+    return {
+        name: person.name,
+        number: person.number,
+        id: person._id
+    }
+}
 
 app.get('/info', (req, res) => {
     res.send(`<div>puhelinluettelossa ${persons.length} henkilön tiedot</div><br/>

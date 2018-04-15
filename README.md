@@ -14,3 +14,6 @@ brew install heroku/brew/heroku
 - git add -A
 - git commit -m "Initiate app"
 - git push heroku master
+
+### Environment varialbe
+MONGODB_URI=...
