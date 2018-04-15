@@ -1,14 +1,25 @@
 const mongoose = require('mongoose')
 
 const url = process.env.MONGODB_URI
-console.log('url: ', url)
 
 mongoose.connect(url)
 
-const Person = mongoose.model('Person', {
+const personSchema = new mongoose.Schema({
     name: String,
     number: String,
     id: Number
 })
+
+personSchema.statics.format = function(person) {
+    return {
+        name: person.name,
+        number: person.number,
+        id: person._id
+    }
+}
+
+const Person = mongoose.model('Person', personSchema);
+
+
 
 module.exports = Person

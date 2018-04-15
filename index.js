@@ -45,17 +45,9 @@ app.get('/api/persons', (req, res) => {
     Person
         .find({})
         .then(persons => {
-            res.json(persons.map(formatPerson))
+            res.json(persons.map(Person.format))
         })
 })
-
-const formatPerson = (person) => {
-    return {
-        name: person.name,
-        number: person.number,
-        id: person._id
-    }
-}
 
 app.get('/info', (req, res) => {
     res.send(`<div>puhelinluettelossa ${persons.length} henkilön tiedot</div><br/>
