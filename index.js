@@ -72,20 +72,25 @@ app.post('/api/persons', (request, response) => {
     if (body.number === undefined) {
         return response.status(400).json({error: 'number missing'})
     }
-    if (persons.filter(person => person.name === body.name).length > 0){
-        return response.status(400).json({error: 'name already exists'})
-    }
-    
-    const person = new Person({
-        name: body.name,
-        number: body.number,
-        id: generateId()
-    })
-    
-    person.save()
-        .then(result => {
-            response.json(Person.format(result))
-        })
+    Person
+        .find({})
+        .then(persons => {
+            if(persons.find(person => person.name === body.name)){
+                return response.status(400).json({error: 'name already exists'})
+            }
+            const person = new Person({
+                name: body.name,
+                number: body.number
+            })
+
+            person.save()
+                .then(result => {
+                    response.json(Person.format(result))
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        })        
         .catch(error => {
             console.log(error)
         })
@@ -112,16 +117,6 @@ app.put('/api/persons/:id', (request, response) => {
         })
   
 })
-
-const generateId = () => {
-    const id = Math.floor(Math.random() * Math.floor(100000));
-    if (persons.filter(person => person.id === id).length > 0){
-        console.log('id ', id, ' already exists, generating new')
-        return generateId()
-    } else {
-        return id
-    }
-}
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
