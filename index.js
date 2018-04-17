@@ -105,6 +105,28 @@ app.post('/api/persons', (request, response) => {
         })
 })
 
+app.put('/api/persons/:id', (request, response) => {
+  const body = request.body
+  console.log(body)
+  
+  const person = {
+      name: body.name,
+      number: body.number,
+      id: body.id
+  }
+  
+  Person
+      .findOneAndUpdate(request.params.id, person, {new: true})
+      .then(updatedPerson => {
+          response.json(Person.format(updatedPerson))
+      })
+      .catch(error => {
+        console.log(error)
+        response.status(400).send({ error: 'malformatted id' })
+        })
+  
+})
+
 const generateId = () => {
     const id = Math.floor(Math.random() * Math.floor(100000));
     if (persons.filter(person => person.id === id).length > 0){

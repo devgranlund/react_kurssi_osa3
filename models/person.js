@@ -7,7 +7,7 @@ mongoose.connect(url)
 const personSchema = new mongoose.Schema({
     name: String,
     number: String,
-    id: Number
+    id: String
 })
 
 personSchema.statics.format = function(person) {
