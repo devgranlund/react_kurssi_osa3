@@ -47,6 +47,9 @@ app.get('/api/persons', (req, res) => {
         .then(persons => {
             res.json(persons.map(Person.format))
         })
+        .catch(error => {
+            console.log(error)
+        })
 })
 
 app.get('/info', (req, res) => {
@@ -83,15 +86,19 @@ app.post('/api/persons', (request, response) => {
         return response.status(400).json({error: 'name already exists'})
     }
     
-    const person = {
+    const person = new Person({
         name: body.name,
         number: body.number,
         id: generateId()
-    }
+    })
     
-    persons = persons.concat(person)
-    
-    response.json(person)
+    person.save()
+        .then(result => {
+            response.json(Person.format(result))
+        })
+        .catch(error => {
+            console.log(error)
+        })
 })
 
 const generateId = () => {

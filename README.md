@@ -1,9 +1,12 @@
 # Software can be found from:
 ### App
-https://infinite-depths-12189.herokuappherokuapp.com
+https://infinite-depths-12189.herokuapp.com
 
 ### Backend
-https://infinite-depths-12189.herokuappherokuapp.com/api/persons
+https://infinite-depths-12189.herokuapp.com/api/persons
+
+### npm
+npm run watch
 
 ## Heroku
 ### Install: 
