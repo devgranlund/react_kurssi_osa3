@@ -14,29 +14,6 @@ app.use(bodyPareser.json())
 app.use(morgan(':method :url :request-data :status :res[content-length] - :response-time ms'))
 app.use(express.static('build'))
 
-let persons = [
-    {
-        "name": "Arto Hellas",
-        "number": "040-123456",
-        "id": 1
-    },
-    {
-        "name": "Martti Tienari",
-        "number": "040-123456",
-        "id": 2
-    },
-    {
-        "name": "Arto Järvinen",
-        "number": "040-123456",
-        "id": 3
-    },
-    {
-        "name": "Lea Kutvonen",
-        "number": "040-123456",
-        "id": 4
-    }
-]
-
 app.get('/', (req, res) => {
     res.send('<h1>Hello World!</h1>')
 })
@@ -53,18 +30,27 @@ app.get('/api/persons', (req, res) => {
 })
 
 app.get('/info', (req, res) => {
-    res.send(`<div>puhelinluettelossa ${persons.length} henkilön tiedot</div><br/>
+    Person
+        .find({})
+        .then(persons => {
+            res.send(`<div>puhelinluettelossa ${persons.length} henkilön tiedot</div><br/>
                 ${new Date()}`)
+        })
+        .catch(error => {
+            console.log(error)
+        })
 })
 
 app.get('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const person = persons.find(perz => perz.id === id)
-    if ( person ) {
-        response.json(person)
-    } else {
-        response.status(404).end()
-    }
+    const id = request.params.id
+    Person
+        .findById(id)
+        .then(person => {
+            response.json(Person.format(person))
+        })
+        .catch(error => {
+            response.status(404).end()
+        })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
