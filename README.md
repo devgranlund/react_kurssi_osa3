@@ -20,3 +20,7 @@ brew install heroku/brew/heroku
 
 ### Environment varialbe
 MONGODB_URI=...
+
+##ESlint
+- npm install eslint --save
+- node_modules/.bin/eslint --init

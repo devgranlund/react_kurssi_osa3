@@ -5,7 +5,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 const Person = require('./models/person')
 
-morgan.token('request-data', function getRequestData (req, res) {
+morgan.token('request-data', function getRequestData(req, res) {
     return JSON.stringify(req.body)
 })
 
@@ -67,16 +67,16 @@ app.delete('/api/persons/:id', (request, response) => {
 app.post('/api/persons', (request, response) => {
     const body = request.body
     if (body.name === undefined) {
-        return response.status(400).json({error: 'name missing'})
+        return response.status(400).json({ error: 'name missing' })
     }
     if (body.number === undefined) {
-        return response.status(400).json({error: 'number missing'})
+        return response.status(400).json({ error: 'number missing' })
     }
     Person
         .find({})
         .then(persons => {
-            if(persons.find(person => person.name === body.name)){
-                return response.status(400).json({error: 'name already exists'})
+            if (persons.find(person => person.name === body.name)) {
+                return response.status(400).json({ error: 'name already exists' })
             }
             const person = new Person({
                 name: body.name,
@@ -90,32 +90,32 @@ app.post('/api/persons', (request, response) => {
                 .catch(error => {
                     console.log(error)
                 })
-        })        
+        })
         .catch(error => {
             console.log(error)
         })
 })
 
 app.put('/api/persons/:id', (request, response) => {
-  const body = request.body
-  console.log(body)
-  
-  const person = {
-      name: body.name,
-      number: body.number,
-      id: body.id
-  }
-  
-  Person
-      .findByIdAndUpdate(request.params.id, person, {new: true})
-      .then(updatedPerson => {
-          return response.json(Person.format(updatedPerson))
-      })
-      .catch(error => {
-        console.log(error)
+    const body = request.body
+    console.log(body)
+
+    const person = {
+        name: body.name,
+        number: body.number,
+        id: body.id
+    }
+
+    Person
+        .findByIdAndUpdate(request.params.id, person, { new: true })
+        .then(updatedPerson => {
+            return response.json(Person.format(updatedPerson))
+        })
+        .catch(error => {
+            console.log(error)
             return response.status(400).send({ error: 'malformatted id' })
         })
-  
+
 })
 
 const PORT = process.env.PORT || 3001
