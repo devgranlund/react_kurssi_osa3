@@ -1,4 +1,8 @@
 const mongoose = require('mongoose')
+if ( process.env.NODE_ENV !== 'production' ) {
+    console.log('working in dev environment, using local env values')
+    require('dotenv').config()
+}
 
 const url = process.env.MONGODB_URI
 
@@ -19,7 +23,5 @@ personSchema.statics.format = function(person) {
 }
 
 const Person = mongoose.model('Person', personSchema);
-
-
 
 module.exports = Person
